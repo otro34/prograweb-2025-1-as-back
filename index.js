@@ -6,14 +6,7 @@ let isDbConnected = false;
 async function connectDatabase() {
     if (!isDbConnected) {
         try {
-            const init = process.argv[2];
-
-            if (init) {
-                await sequelize.sync({ force: true });
-            } else {
-                await sequelize.sync({ force: false });
-            }
-            
+            await sequelize.sync({ force: false });
             console.log('Database connected successfully!');
             isDbConnected = true;
         } catch (error) {
@@ -37,7 +30,15 @@ export default async function handler(req, res) {
 // For local development
 async function main() {
     try {
-        await connectDatabase();
+        const init = process.argv[2];
+        
+        if (init) {
+            await sequelize.sync({ force: true });
+        } else {
+            await sequelize.sync({ force: false });
+        }
+        
+        console.log('Database connected successfully!');
         
         const port = process.env.PORT || 3001;
 
