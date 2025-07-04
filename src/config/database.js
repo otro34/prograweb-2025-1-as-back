@@ -12,12 +12,19 @@ const sequelize = new Sequelize(database, username, password, {
     host: hostname,
     port: port,
     dialect: dialect,
+    dialectModule: null, // Let Sequelize auto-detect the pg module
     operatorAliases: false,
     dialectOptions: {
         ssl: process.env.NODE_ENV === 'production' ? {
             require: true,
             rejectUnauthorized: false
         } : false
+    },
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
     },
     logging: process.env.NODE_ENV === 'production' ? false : console.log
 })
