@@ -1,3 +1,4 @@
+import pg from "pg"
 import Sequelize from 'sequelize'
 
 // Use environment variables with fallbacks for local development
@@ -12,7 +13,7 @@ const sequelize = new Sequelize(database, username, password, {
     host: hostname,
     port: port,
     dialect: dialect,
-    dialectModule: null, // Let Sequelize auto-detect the pg module
+    dialectModule: pg, // Let Sequelize auto-detect the pg module
     operatorAliases: false,
     dialectOptions: {
         ssl: process.env.NODE_ENV === 'production' ? {
